@@ -1,0 +1,3 @@
+OLLVM-CLANG-BINARY-PLACEHOLDER
+This is a placeholder file that will be replaced with the actual Obfuscator-LLVM binary during project deployment.
+The actual binary will be embedded in the application resources. 

@@ -12,6 +12,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+# Add Keystone and Capstone build configurations
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third_party/keystone EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third_party/capstone EXCLUDE_FROM_ALL)
+
+# Define include directories for Keystone and Capstone
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/keystone/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/capstone/include
+)
+
 set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp
@@ -24,6 +34,9 @@ set(PROJECT_SOURCES
     historywidget.h historywidget.cpp
     obfuscationwidget.h obfuscationwidget.cpp
     filehistory.h filehistory.cpp
+    ollvmhandler.h ollvmhandler.cpp
+    binaryobfuscator.h binaryobfuscator.cpp
+    binarycodeinjector.h binarycodeinjector.cpp
 )
 
 qt_add_resources(RESOURCES resources.qrc) # Explicit resource addition
@@ -36,6 +49,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         historywidget.h historywidget.cpp
         obfuscationwidget.h obfuscationwidget.cpp
         filehistory.h filehistory.cpp
+        ollvmhandler.h ollvmhandler.cpp
+        binaryobfuscator.h binaryobfuscator.cpp
+        binarycodeinjector.h binarycodeinjector.cpp
     )
 else()
     if(ANDROID)
@@ -50,11 +66,19 @@ else()
             historywidget.h historywidget.cpp
             obfuscationwidget.h obfuscationwidget.cpp
             filehistory.h filehistory.cpp
+            ollvmhandler.h ollvmhandler.cpp
+            binaryobfuscator.h binaryobfuscator.cpp
+            binarycodeinjector.h binarycodeinjector.cpp
         )
     endif()
 endif()
 
-target_link_libraries(asd PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# Link with Keystone and Capstone libraries
+target_link_libraries(asd PRIVATE 
+    Qt${QT_VERSION_MAJOR}::Widgets 
+    keystone
+    capstone
+)
 
 set_target_properties(asd PROPERTIES
     MACOSX_BUNDLE TRUE

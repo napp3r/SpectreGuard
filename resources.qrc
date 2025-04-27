@@ -8,4 +8,10 @@
         <file>icons/settings.svg</file>
         <file>icons/message.svg</file>
     </qresource>
+    <qresource prefix="/binaries">
+        <file>binaries/ollvm-clang</file>
+        <file>binaries/upx.exe</file>
+        <file>binaries/peprotect.exe</file>
+        <file>binaries/pebindblur.exe</file>
+    </qresource>
 </RCC>
